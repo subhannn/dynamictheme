@@ -79,10 +79,16 @@ class ContainerPage extends CmsCompoundObject
     protected function initConfig(){
         $config = input('config');
         $helper = $this->helper->setController($this->controller);
+        
+        $helper->renderCustomStyle();
         if(isset($this->controller->getPage()->settings['config']) && !$config){
             $config = $this->controller->getPage()->settings['config'];
             $config = json_decode($config)?$config:'';
             $helper->loadConfig($config);
         }
+    }
+
+    public function getType(){
+        return 'dynamictheme';
     }
 }

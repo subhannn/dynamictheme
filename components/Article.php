@@ -132,8 +132,6 @@ class Article extends ThemeComponentBase
         // exit();
     }
 
-
-
     protected function getPost(){
         $curl = new cURL();
         

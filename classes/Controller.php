@@ -77,7 +77,7 @@ class Controller
     {
         if(!$page instanceof ContainerPage)
             return;
-
+        
         $page->setController($controller);
     }
 

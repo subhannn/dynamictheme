@@ -3,6 +3,10 @@
 use System\Classes\PluginBase;
 use Backend;
 use Event;
+<<<<<<< HEAD
+=======
+use Config;
+>>>>>>> 883ba381698e063279af516fe03beee9ee1ad43f
 use Kincir\Dynamictheme\Classes\Controller;
 use Cms\Classes\Controller as CmsController;
 use Kincir\Dynamictheme\Classes\ContainerPage;
@@ -50,6 +54,11 @@ class Plugin extends PluginBase
     }
 
     public function register(){
+<<<<<<< HEAD
+=======
+        Config::set('cms.twigNoCache', true);
+        
+>>>>>>> 883ba381698e063279af516fe03beee9ee1ad43f
         /**
         * Register twig
         */

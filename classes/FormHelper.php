@@ -60,23 +60,48 @@ class FormHelper
 			$configForm[$key] = $attr;
 			$counter++;
 		}
-
-		uasort($configForm, function ($item1, $item2) {
-			return $item2['tabSort'] <= $item1['tabSort'];
-		});
-
-		uasort($configForm, function ($item1, $item2) {
-			return $item2['indexField'] <= $item1['indexField'];
-		});
-
-		// print_r($this->styles);
-		// exit();
+		
+		$configForm = $this->grouping($configForm);
+		// uasort($configForm, function ($item1, $item2) {
+		// 	return $item2['tabSort'] <= $item1['tabSort'];
+		// });
 
 		$form = new stdClass();
 		$form->{'tabs'} = [];
 		$form->tabs['fields'] = $configForm;
 
 		return $form;
+	}
+
+	protected function grouping($configForm=[]){
+		$group = [
+			'outside'	=> [],
+			'group'		=> []
+		];
+
+		foreach ($configForm as $key => $value) {
+			if(isset($value['group'])){
+				// group
+				$group['group'][$value['group']][$key] = $value;
+			}else{
+				// outside
+				$group['outside'][$key] = $value;
+			}
+		}
+
+		uasort($group['outside'], function ($item1, $item2) {
+			return $item2['indexField'] <= $item1['indexField'];
+		});
+
+		$groups = $group['outside'];
+		foreach ($group['group'] as $value) {
+			uasort($value, function ($item1, $item2) {
+				return $item2['indexField'] <= $item1['indexField'];
+			});
+			$groups += $value;
+		}
+
+		return $groups;
 	}
 
 	protected function overrideStyle($attribute){

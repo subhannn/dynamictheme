@@ -101,7 +101,7 @@ class ThemeModule extends CmsCompoundObject
 
     public function getDisableOnValue($value){
         if(!is_array($value)) return '';
-
+        
         $helper = ParserTheme::instance();
         $isEditing = $helper->isEditingMode();
 

@@ -23,24 +23,3 @@ fields:
         span: right
         type: checkbox
         comment: 'kincir.dynamictheme::lang.fields.is_hidden_comment'
-    'data[meta_title]':
-        label: 'kincir.dynamictheme::lang.fields.meta_title'
-        oc.commentPosition: ''
-        span: full
-        type: text
-    'data[meta_description]':
-        label: 'kincir.dynamictheme::lang.fields.meta_desc'
-        size: small
-        oc.commentPosition: ''
-        span: full
-        trigger:
-            action: show
-            field: slug
-            condition: 'value[1]'
-        type: textarea
-    'data[meta_image]':
-        label: 'kincir.dynamictheme::lang.fields.meta_image'
-        oc.commentPosition: ''
-        mode: image
-        span: auto
-        type: kincirmediafinder

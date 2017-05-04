@@ -73,8 +73,13 @@ class ThemeComponentBase extends ComponentBase
             // if(isset($value['type']) && in_array($value['type'], $callableInput))
             //     $value['callable'] = 'component|'.$this->alias;
             $value = $this->fixAliasing($this->alias, $value);
+            
+            if(!isset($value['indexField']))
+                $value['indexField'] = $counter;
 
-            $value['indexField'] = $counter;
+            if(!isset($value['group']))
+                $value['group'] = 'Component-'.$this->alias;
+
             $newConfig[$this->alias.'-'.$key] = $value;
             $counter++;
         }

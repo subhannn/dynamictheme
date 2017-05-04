@@ -1,6 +1,6 @@
 fields:
     title:
-        label: 'Title'
+        label: 'Head Title'
         type: text
         placeholder: 'Title module'
 
