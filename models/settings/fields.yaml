@@ -1,0 +1,14 @@
+fields:
+    title:
+        label: TItle
+        oc.commentPosition: ''
+        span: full
+        type: text
+    type:
+        label: Type
+        oc.commentPosition: ''
+        options:
+            new: Latest
+            random: Random
+        span: auto
+        type: dropdown

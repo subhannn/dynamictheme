@@ -1,0 +1,12 @@
+attr:
+  section1:
+    label: 'kincir.dynamictheme::lang.fields.section_general'
+    span: full
+    type: section
+    css: true
+  padding:
+    label: 'Padding'
+    type: cssinput
+    css:
+      selector: '{parent}'
+      style: 'padding: [value];'

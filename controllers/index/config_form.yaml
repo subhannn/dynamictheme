@@ -1,0 +1,7 @@
+name: Index
+form: $/kincir/dynamictheme/models/page/fields.yaml
+modelClass: Kincir\DynamicTheme\Models\Page
+defaultRedirect: kincir/dynamictheme/index
+create:
+    redirect: 'kincir/dynamictheme/index/editing/:id'
+    redirectClose: kincir/dynamictheme/index

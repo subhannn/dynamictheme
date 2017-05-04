@@ -1,0 +1,24 @@
+<div id="<?= $this->getId() ?>" class="form-group row">
+	<div class="element col-xs-5">
+		<select
+	        id="<?= $this->getId() ?>"
+	        class="form-control custom-select"
+	        data-preview-style="<?= e('font-family') ?>"
+	        >
+	        <?php foreach ($fieldOptions as $value => $option): ?>
+	            <?php
+	                if (!is_array($option)) $option = [$option];
+	            ?>
+	            <option
+	                <?= $value == 'sib' ? 'selected="selected"' : '' ?>
+	                <?php if (isset($option[1])): ?>data-<?=strpos($option[1],'.')?'image':'icon'?>="<?= $option[1] ?>"<?php endif ?>
+	                value="<?= $value ?>"
+	            ><?= e(trans($option[0])) ?></option>
+	        <?php endforeach ?>
+	    </select>
+	</div>
+	<div class="btn-group col-xs-4" role="group">
+		<button type="button" class="btn btn-default" data-preview-style="<?= e(json_encode(['font-weight'])) ?>">B</button>
+		<button type="button" class="btn btn-default">C</button>
+	</div>
+</div>

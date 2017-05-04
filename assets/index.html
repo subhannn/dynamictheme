@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Test
+        </title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css" rel="stylesheet">
+            <link href="/temp/drag/css/custom.css" rel="stylesheet">
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+                </link>
+            </link>
+        </link>
+    </head>
+    <body>
+        <script type="text/javascript">
+            var sectionsOptions = {
+                "Section_1" : {
+                    'name': 'Section 1',
+                    'picture': '/temp/drag/section/picture/1.svg',
+                    'code' : 'section1'
+                },
+                "Section_2": {
+                    'name': 'Section 2',
+                    'picture': '/temp/drag/section/picture/2.svg',
+                    'code' : 'section2'
+                },
+                "Section_3": {
+                    'name': 'Section 3',
+                    'picture': '/temp/drag/section/picture/3.svg',
+                    'code' : 'section3'
+                }
+            };
+        </script>
+        <script id="builder-container" type="text/template">
+            <div data-control="container" class="container">
+                <div class="container-rows">
+                    
+                </div>
+            </div>
+        </script>
+
+        <script type="text/template" id="section-container">
+            <div class="container-section section" data-control="section" data-section-code="section1">
+                <span class="loading-rendering">Rendering.......!</span>
+            </div>
+        </script>
+
+        <script type="text/template" id="tooltip-container">
+            <div class="tool-cont">
+                <%= content %>
+            </div>
+        </script>
+
+        <script type="text/template" id="row-options-tooltip">
+            <div class="tooltip tooltip-settings tool-cont">
+                <span class="small btn-settings move-handle">
+                    <i class="small material-icons color-white">open_with</i>
+                </span>
+                <button class="small btn-settings">
+                    <i class="small material-icons color-white">delete</i>
+                </button>
+            </div>
+            <div class="border-top"></div>
+            <div class="border-right"></div>
+            <div class="border-left"></div>
+            <div class="border-bottom"></div>
+        </script>
+
+        <script id="panel-rows" type="text/template">
+            <div class="container-row highlight-row ">
+                <button class="add_section">
+                    <i class="material-icons dp49">view_stream</i>
+                </button>
+                <button class="add_row">
+                    <i class="material-icons dp48">view_stream</i>
+                </button>
+            </div>
+        </script>
+        <script id="section-item" type="text/template">
+            <div class="section-item">
+                <div class="preview">
+                    <img src="<%= picture %>">
+                </div>
+                <div class="title">
+                    <%= name %>
+                </div>
+            </div>
+        </script>
+        <script id="section-dialog" type="text/template">
+            <div class="modal-content">
+                <h4>List Section</h4>
+                <div id="list-section">
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action close_section waves-effect waves-green btn-flat">Cancel</a>
+                <a href="#!" class=" modal-action waves-effect waves-green btn-flat insert_section">Insert</a>
+                
+            </div>
+        </script>
+        <script id="dialog-template" type="text/template">
+            <div class="wraper-modal">
+                <%= content %>
+            </div>
+        </script>
+        <div id="wrap">
+            <input name="editing_data" type="hidden"/>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript">
+        </script>
+        <script src="http://underscorejs.org/underscore-min.js" type="text/javascript">
+        </script>
+        <script src="http://backbonejs.org/backbone-min.js" type="text/javascript">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js">
+        </script>
+        <script src="/temp/drag/js/build.js" type="text/javascript">
+        </script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js">
+        </script>
+    </body>
+</html>

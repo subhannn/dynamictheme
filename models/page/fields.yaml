@@ -1,0 +1,46 @@
+fields:
+    title:
+        label: 'kincir.dynamictheme::lang.fields.title_page'
+        oc.commentPosition: ''
+        span: left
+        type: text
+    slug:
+        label: 'kincir.dynamictheme::lang.fields.slug_page'
+        oc.commentPosition: ''
+        span: right
+        preset:
+            field: title
+            type: slug
+        type: text
+    'data[layout]':
+        label: 'kincir.dynamictheme::lang.fields.layout_page'
+        oc.commentPosition: ''
+        span: left
+        type: dropdown
+        options: getLayoutOptions
+    'data[hidden]':
+        label: 'kincir.dynamictheme::lang.fields.is_hidden'
+        span: right
+        type: checkbox
+        comment: 'kincir.dynamictheme::lang.fields.is_hidden_comment'
+    'data[meta_title]':
+        label: 'kincir.dynamictheme::lang.fields.meta_title'
+        oc.commentPosition: ''
+        span: full
+        type: text
+    'data[meta_description]':
+        label: 'kincir.dynamictheme::lang.fields.meta_desc'
+        size: small
+        oc.commentPosition: ''
+        span: full
+        trigger:
+            action: show
+            field: slug
+            condition: 'value[1]'
+        type: textarea
+    'data[meta_image]':
+        label: 'kincir.dynamictheme::lang.fields.meta_image'
+        oc.commentPosition: ''
+        mode: image
+        span: auto
+        type: kincirmediafinder

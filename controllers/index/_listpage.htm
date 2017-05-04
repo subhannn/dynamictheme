@@ -1,0 +1,23 @@
+<?php foreach($lists as $list): ?>
+<li data-record-id="<?= $list->id ?>" class="item">
+	<div class="record">
+		<a href="javascript:;" class="move"></a>
+		<span>
+			<a href="<?= Backend::url('kincir/dynamictheme/index/editing/'.$list->id) ?>" data-request-data="id: '<?= $list->id ?>'">
+				<?= $list->title ?>
+			</a>
+			<a target="_blank" href="<?= url($list->url) ?>">(<?= $list->url ?>)</a>
+		</span>
+
+		<span class="fright">
+			<a href="#" data-request="onRemoveItem" data-request-confirm="Are you sure you wish to remove this item?" data-request-data="id: '<?= $list->id ?>'" class='trash'><i class='icon-trash-o'></i></a>
+		</span>
+	</div>
+
+	<ol>
+		<?php if ($list->children): ?>
+			<?= $this->makePartial('listpage', ['lists' => $list->children]) ?>
+		<?php endif ?>
+	</ol>
+</li>
+<?php endforeach; ?>

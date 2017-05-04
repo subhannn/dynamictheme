@@ -1,0 +1,71 @@
+fields:
+    section1:
+        label: 'kincir.dynamictheme::lang.fields.section_global'
+        span: full
+        type: section
+    text_color:
+        label: 'kincir.dynamictheme::lang.fields.text_color_label'
+        oc.commentPosition: ''
+        span: left
+        type: colorpicker
+        availableColors:
+            - '#3498db'
+            - '#e67e22'
+            - '#ecf0f1'
+    link_color:
+        label: 'kincir.dynamictheme::lang.fields.link_color_label'
+        oc.commentPosition: ''
+        span: right
+        type: colorpicker
+        availableColors:
+            - '#3498db'
+            - '#e67e22'
+            - '#ecf0f1'
+    use_border:
+        label: 'kincir.dynamictheme::lang.fields.use_border_label'
+        span: left
+        type: switch
+    border_width:
+        label: 'kincir.dynamictheme::lang.fields.border_width_label'
+        oc.commentPosition: ''
+        span: left
+        trigger:
+            action: show
+            field: use_border
+            condition: checked
+        type: number
+    border_color:
+        label: 'kincir.dynamictheme::lang.fields.border_color'
+        oc.commentPosition: ''
+        span: right
+        trigger:
+            action: show
+            field: use_border
+            condition: checked
+        availableColors:
+            - '#3498db'
+            - '#e67e22'
+            - '#ecf0f1'
+    border_style:
+        label: 'kincir.dynamictheme::lang.fields.border_style'
+        oc.commentPosition: ''
+        options:
+            solid: Solid
+            double: Double
+            dotted: Dotted
+            dashed: Dashed
+        span: left
+        trigger:
+            action: show
+            field: use_border
+            condition: checked
+        type: dropdown
+    border_radius:
+        label: 'kincir.dynamictheme::lang.fields.border_radius'
+        oc.commentPosition: ''
+        span: right
+        trigger:
+            action: show
+            field: use_border
+            condition: checked
+        type: number

@@ -1,0 +1,184 @@
+<?= Form::open([
+    'class' => 'layout',
+    'data-change-monitor' => 'true',
+    
+    'id' => 'post-form'
+]) ?>
+
+<script type="text/javascript">
+    var themeOptions = <?= $themeOptions ?>;
+</script>
+
+<script id="builder-container" type="text/template">
+    <div class="container-rows"></div>
+</script>
+
+<script type="text/template" id="tooltip-container">
+    <div class="tooltip-container">
+        <div class="th-border th-border-top"></div>
+        <div class="th-border th-border-right"></div>
+        <div class="th-border th-border-left"></div>
+        <div class="th-border th-border-bottom"></div>
+        <%= content %>
+    </div>
+</script>
+
+<script type="text/template" id="component-options-tooltip">
+    <div class="tooltip-settings module-tooltip zoom-animation">
+        <button cmd="component-setting" type="button" 
+        	class="btn-settings"
+            data-toggle="tooltip"
+            data-placement="auto"
+            title="Module Settings">
+            <i class="fa fa-cog"></i>
+        </button>
+    </div>
+</script>
+
+<script type="text/template" id="section-options-tooltip">
+    <div class="tooltip-settings section-tooltip zoom-animation">
+        <button cmd="section-setting" type="button" 
+            class="btn-settings"
+            data-toggle="tooltip"
+            data-placement="auto"
+            title="Section Settings">
+            <i class="fa fa-cog"></i>
+        </button>
+    </div>
+</script>
+
+<script id="panel-rows" type="text/template">
+    <div class="th-row"></div>
+</script>
+
+<script id="button-panel-rows" type="text/template">
+	<button class="th-btn-action zoom-animation center add_section" type="button"
+        data-toggle="tooltip"
+        data-placement="auto"
+        title="Add Section">
+        <i class="fa fa-plus"></i>
+    </button>
+    <button class="th-btn-action zoom-animation center add_row" type="button"
+        data-toggle="tooltip"
+        data-placement="auto"
+        title="Add Row">
+        <i class="fa fa-plus"></i>
+    </button>
+</script>
+
+<script type="text/template" id="row-options-tooltip">
+    <div class="tooltip-settings tool-cont">
+        <span class="btn-settings move-handle" 
+            data-toggle="tooltip"
+            data-placement="auto"
+            title="Move Row">
+            <i class="fa fa-arrows"></i>
+        </span>
+        <button class="btn-settings delete_row" type="button"
+            data-toggle="tooltip"
+            data-placement="auto"
+            title="Delete Row">
+            <i class="fa fa-trash-o"></i>
+        </button>
+    </div>
+</script>
+
+<script id="section-item" type="text/template">
+    <div class="section-item">
+        <div class="preview">
+            <img src="<%= picture %>">
+        </div>
+        <div class="title">
+            <%= name %>
+        </div>
+    </div>
+</script>
+<script id="section-dialog" type="text/template">
+    <div class="modal-header">
+        <h4 class="modal-title">List Section</h4>
+    </div>
+    <div class="modal-body">
+        <div id="list-section">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary insert_section">Insert</button>
+        <button type="button" class="btn btn-danger close_section">Cancel</button>
+    </div>
+</script>
+<script type="text/template" id="component-container">
+	<div class="th-component" component="<%= component %>"></div>
+</script>
+<script type="text/template" id="section-container">
+	<div class="th-section"></div>
+</script>
+<script id="dialog-template" type="text/template">
+	<div class="md-content modal-dialog">
+		<%= content %>
+	</div>
+</script>
+<div id="wrap">
+    <input name="editing_data" type="hidden" <?= 'value="'.e($config).'"' ?> />
+</div>
+
+<script type="text/template" id="builder-action">
+    <!-- <div class="floating-menu"> -->
+    <div class="floating-menu left">
+        <div class="btn-group orientation">
+            <button type="button" class="btn-orientation btn-mobile" data-control="tooltip" title="Mobile Preview">
+                <i class="icon-mobile"></i>
+            </button>
+            <button type="button" class="btn-orientation btn-tablet" data-control="tooltip" title="Tablet Preview">
+                <i class="icon-tablet"></i>
+            </button>
+            <button type="button" class="btn-orientation btn-desktop active" data-control="tooltip" title="Desktop Preview">
+                <i class="icon-desktop"></i>
+            </button>
+            <div class="dropdown dropup">
+                <button type="button" class="btn-orientation btn-config" data-toggle="dropdown" data-control="tooltip" title="Theme Options">
+                    <i class="icon-cog"></i>
+                </button>
+
+                <ul class="dropdown-menu" role="menu" data-dropdown-title="Theme Options">
+                    <li role="presentation"><a cmd="clear_layout" role="menuitem" tabindex="-1" href="#" class="oc-icon-refresh">Clear Layout</a></li>
+                    <li role="presentation"><a cmd="setting_page" role="menuitem" tabindex="-1" href="#" class="oc-icon-upload">Setting Page</a></li>
+                    <li role="presentation"><a cmd="import_json" role="menuitem" tabindex="-1" href="#" class="oc-icon-upload">Import</a></li>
+                    <li role="presentation"><a cmd="export_json" role="menuitem" tabindex="-1" href="#" class="oc-icon-download">Export</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="floating-menu right">
+        <button class="btn-save" type="button" data-control="tooltip" title="Preview Current Settings"
+            data-request="onSave"
+            data-hotkey="ctrl+s"
+            data-load-indicator="<?= e(trans('backend::lang.form.saving')) ?>">
+            <i class="icon-floppy-o"></i> <?= e(trans('backend::lang.form.save')) ?>
+        </button>
+        <button class="btn-preview" type="button" data-control="tooltip" title="Save Configuration">
+            <i class="icon-floppy-o"></i> <?= e(trans('kincir.dynamictheme::lang.fields.btn_preview')) ?>
+        </button>
+    </div>
+    <!-- </div> -->
+</script>
+
+<script type="text/template" id="tooltip-modal">
+    <div class="tooltip-modal">
+        <div class="tooltip-modal-content">
+            <div class="body">
+                <h3 class="modal-content-title">
+                    Insert Column
+                    <button>x</button>
+                </h3>
+                <div class="main-modal">
+                    <ul>
+                        <li>Haii</li>
+                        <li>Bobo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<?= Form::close() ?>

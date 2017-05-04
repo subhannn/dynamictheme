@@ -1,0 +1,10 @@
+<div data-control="cssinput" id="<?= $this->getId() ?>" class="form-group row" data-allowed-unit="<?= e(json_encode($this->allowedUnit)) ?>">
+	<?php foreach($input as $key => $val): ?>
+	<div class="element col-xs-<?= $column ?> col-md-<?= $column ?> col-lg-<?= $column ?>">
+		<input class="form-control" type="text" 
+		<?= isset($value[$key])?'value="'.$value[$key].'"':'' ?> 
+		placeholder="<?= isset($this->placeholder[$key])?$this->placeholder[$key]:'' ?>">
+	</div>
+	<?php endforeach; ?>
+	<input type="hidden" name="<?= $field->getName() ?>" data-value>
+</div>
