@@ -1,0 +1,12 @@
+fields:
+    title:
+        label: 'Head Title'
+        type: text
+        placeholder: 'Title module'
+
+    fans:
+        label: 'List Community'
+        type: tokeninput
+        mode: array
+        attributes:
+            data-handle-callable: 'onSearchKincirPage'

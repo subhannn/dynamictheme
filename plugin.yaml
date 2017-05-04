@@ -1,0 +1,6 @@
+plugin:
+    name: 'kincir.dynamictheme::lang.plugin.name'
+    description: 'kincir.dynamictheme::lang.plugin.description'
+    author: Kincir
+    icon: oc-icon-paint-brush
+    homepage: ''

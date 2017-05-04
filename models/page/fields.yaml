@@ -1,0 +1,25 @@
+fields:
+    title:
+        label: 'kincir.dynamictheme::lang.fields.title_page'
+        oc.commentPosition: ''
+        span: left
+        type: text
+    slug:
+        label: 'kincir.dynamictheme::lang.fields.slug_page'
+        oc.commentPosition: ''
+        span: right
+        preset:
+            field: title
+            type: slug
+        type: text
+    'data[layout]':
+        label: 'kincir.dynamictheme::lang.fields.layout_page'
+        oc.commentPosition: ''
+        span: left
+        type: dropdown
+        options: getLayoutOptions
+    'data[hidden]':
+        label: 'kincir.dynamictheme::lang.fields.is_hidden'
+        span: right
+        type: checkbox
+        comment: 'kincir.dynamictheme::lang.fields.is_hidden_comment'

@@ -1,0 +1,76 @@
+fields:
+    section1:
+        label: 'kincir.dynamictheme::lang.fields.section_global'
+        span: full
+        type: section
+    text_color:
+        label: 'kincir.dynamictheme::lang.fields.text_color_label'
+        oc.commentPosition: ''
+        availableColors:
+            - '#3498db'
+        span: left
+        type: colorpicker
+    link_color:
+        label: 'kincir.dynamictheme::lang.fields.link_color_label'
+        oc.commentPosition: ''
+        span: right
+        type: colorpicker
+    use_border:
+        label: 'kincir.dynamictheme::lang.fields.use_border_label'
+        span: left
+        type: switch
+    border_width:
+        label: 'kincir.dynamictheme::lang.fields.border_width_label'
+        oc.commentPosition: ''
+        span: left
+        trigger:
+            action: show
+            field: use_border
+            condition: checked
+        type: number
+    border_color:
+        label: 'kincir.dynamictheme::lang.fields.border_color'
+        oc.commentPosition: ''
+        span: right
+        trigger:
+            action: show
+            field: use_border
+            condition: checked
+        type: colorpicker
+    border_style:
+        label: 'kincir.dynamictheme::lang.fields.border_style'
+        oc.commentPosition: ''
+        options:
+            solid: Solid
+            double: Double
+            dotted: Dotted
+            dashed: Dashed
+        span: left
+        trigger:
+            action: show
+            field: use_border
+            condition: checked
+        type: dropdown
+    border_radius:
+        label: 'kincir.dynamictheme::lang.fields.border_radius'
+        oc.commentPosition: ''
+        span: right
+        trigger:
+            action: show
+            field: use_border
+            condition: checked
+        type: number
+tabs:
+    fields:
+        text1:
+            label: Text
+            oc.commentPosition: ''
+            span: auto
+            type: text
+            tab: test
+        text2:
+            label: Text
+            oc.commentPosition: ''
+            span: auto
+            type: text
+            tab: 'kincir.dynamictheme::lang.plugin.name'

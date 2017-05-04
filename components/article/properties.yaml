@@ -1,0 +1,62 @@
+fields:
+    title:
+        label: 'Head Title'
+        type: text
+        placeholder: 'Title module'
+
+    filter:
+        label: 'Filter'
+        type: dropdown
+
+    sorting:
+        label: 'Sorting'
+        type: dropdown
+    
+    group:
+        label: 'Group'
+        type: dropdown
+        trigger:
+            action: show|enable
+            field: filter
+            condition: 'value[video-type][post]'
+            
+    category:
+        label: 'Category'
+        type: dropdown
+        trigger:
+            action: show|enable
+            field: group
+            condition: 'value[category]'
+
+    tag:
+        label: 'Tags'
+        type: dropdown
+        trigger:
+            action: show|enable
+            field: group
+            condition: 'value[tag]'
+
+    hit_count:
+        label: 'Limit View Count'
+        type: number
+        comment: 'Set limit viewcount you want, is less then from input (default: 3000).'
+        placeholder: 'Default : 3000'
+        trigger:
+            action: show|enable
+            field: filter
+            condition: 'value[hits]'
+
+    limit:
+        type: number
+        label: 'Limit'
+        placeholder: 'Default : 10'
+
+    url :
+        type: text
+        label: 'URL Link button more'
+        placeholder: 'Put url for see more'
+
+    copy:
+        type: text
+        label: 'Copy button more'
+        placeholder: 'Put text for see more button / link'

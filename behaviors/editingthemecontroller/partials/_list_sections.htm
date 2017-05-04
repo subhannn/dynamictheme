@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h4 class="modal-title">List Section</h4>
+</div>
+<div class="modal-body clearfix md-body">
+    <div id="list-section">
+        <?php foreach($list_section as $sec): ?>
+        <div class="section-item" data-code="<?= $sec->code ?>">
+            <div class="preview">
+                <img src="<?= $sec->picture ?>">
+            </div>
+            <div class="title">
+                <?= $sec->name ?>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary insert_section">Insert</button>
+    <button type="button" class="btn btn-danger close_section">Cancel</button>
+</div>
