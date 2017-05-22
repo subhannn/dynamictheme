@@ -9,6 +9,7 @@ use Cms\Classes\Theme;
 use Kincir\Dynamictheme\Classes\ThemeModule;
 use Cms\Classes\MediaViewHelper;
 use Kincir\Dynamictheme\Classes\BaseModelForm;
+use Cms\Classes\ComponentHelpers;
 
 /**
  * The System Twig extension class implements common Twig functions and filters.
@@ -380,8 +381,13 @@ class ParserTheme
 
             $componentObj->alias = $alias;
             $componentObj->className = $name;
+
+            $compProps = ComponentHelpers::getComponentsPropertyConfig($componentObj, false, true);
+            $compProps = FormHelper::instance()->componentPropertiesToFormProperties($compProps, $componentObj->alias);
+
             $cmpConfig = method_exists($componentObj, 'getConfigProperties')?$componentObj->getConfigProperties():[];
-            $componentConfig = array_merge($componentConfig, $cmpConfig);
+            $componentConfig = array_merge($componentConfig, $cmpConfig, $compProps);
+            
             $objPartial->components[$alias] = $componentObj;
 
             $componentObj->init();

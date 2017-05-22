@@ -208,4 +208,39 @@ class FormHelper
 
 		return isset($attr[$alias])?$attr[$alias]:[];
 	}
+
+	public function componentPropertiesToFormProperties($componentProp=[], $alias=null){
+		if(!is_array($componentProp))
+			return [];
+
+		$props = [];
+		foreach ($componentProp as $value) {
+			$prop = $this->fixAliasing($alias, $value);
+			$key = $prop['property'];
+			$prop['label'] = $prop['title'];
+			$prop['comment'] = $prop['description'];
+			$prop['type'] = $prop['type']=='string'?'text':$prop['type'];
+			unset($prop['title']);
+			unset($prop['description']);
+			unset($prop['property']);
+			$prop['group'] = 'Component ('.$alias.')';
+
+			$props[$key] = $prop;
+		}
+
+		return $props;
+	}
+
+	protected function fixAliasing($alias, $config){
+        foreach ($config as $key => $value) {
+            if($key == 'property')
+                $config[$key] = $alias.'-'.$value;
+
+            if(is_array($value)){
+                $config[$key] = $this->fixAliasing($alias, $value);
+            }
+        }
+
+        return $config;
+    }
 }
