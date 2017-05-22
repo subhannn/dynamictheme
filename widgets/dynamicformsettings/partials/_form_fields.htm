@@ -1,3 +1,11 @@
+<?php $tempGroup = '-'; ?>
 <?php foreach ($fields as $field): ?>
+	<?php if(!empty($tempGroup) && $field->getConfig('group') != null && $tempGroup != $field->getConfig('group')): ?>
+		<?php $tempGroup = $field->getConfig('group'); ?>
+	<div class="field-group">
+		<h4><?= $field->getConfig('group') ?></h4>
+	</div>
+	<?php endif; ?>
+
     <?= $this->makePartial('field-container', ['field' => $field]) ?>
 <?php endforeach ?>

@@ -2,7 +2,7 @@
 
 use Lang;
 use Form as FormHelper;
-use Backend\Classes\FormTabs;
+use Kincir\Dynamictheme\Classes\FormTabs;
 use Backend\Classes\FormField;
 use Backend\Classes\WidgetBase;
 use Backend\Classes\WidgetManager;
@@ -160,6 +160,7 @@ class DynamicFormSettings extends WidgetBase
     protected function loadAssets()
     {
         $this->addJs('js/october.form.js', 'core');
+        $this->addCss('css/custom.css', 'core');
     }
 
     /**
@@ -568,6 +569,20 @@ class DynamicFormSettings extends WidgetBase
                     break;
             }
         }
+        // if(strtolower($addToArea) != FormTabs::SECTION_SECONDARY)
+        //     return;
+
+        // switch (strtolower($addToArea)) {
+        //     case FormTabs::SECTION_PRIMARY:
+        //         $this->allTabs->primary->sortTabs();
+        //         break;
+        //     case FormTabs::SECTION_SECONDARY:
+        //         $this->allTabs->secondary->sortTabs();
+        //         break;
+        //     default:
+        //         $this->allTabs->outside->sortTabs();
+        //         break;
+        // }
     }
 
     /**

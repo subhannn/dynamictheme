@@ -78,7 +78,7 @@ class ThemeComponentBase extends ComponentBase
                 $value['indexField'] = $counter;
 
             if(!isset($value['group']))
-                $value['group'] = 'Component-'.$this->alias;
+                $value['group'] = 'Component ('.$this->alias.')';
 
             $newConfig[$this->alias.'-'.$key] = $value;
             $counter++;
