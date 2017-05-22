@@ -60,12 +60,13 @@ class FormHelper
 			$configForm[$key] = $attr;
 			$counter++;
 		}
-		
+
 		$configForm = $this->grouping($configForm);
 		// uasort($configForm, function ($item1, $item2) {
 		// 	return $item2['tabSort'] <= $item1['tabSort'];
 		// });
-
+		// print_r($configForm);
+		// exit();
 		$form = new stdClass();
 		$form->{'tabs'} = [];
 		$form->tabs['fields'] = $configForm;

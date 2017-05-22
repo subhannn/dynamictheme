@@ -18,7 +18,7 @@ fields:
         trigger:
             action: show|enable
             field: filter
-            condition: 'value[video-type][post]'
+            condition: 'value[video-type][post][all]'
             
     category:
         label: 'Category'

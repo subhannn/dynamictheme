@@ -1,0 +1,13 @@
+.field-group{
+	padding-bottom: 10px;
+    border-bottom: 1px solid #d1d6d9;
+    margin-bottom: 6px;
+}
+
+.field-group h4{
+	margin: 0;
+    font-size: 16px;
+    color: #2a3e51;
+    font-weight: bold;
+    text-transform: capitalize;
+}

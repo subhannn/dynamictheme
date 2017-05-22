@@ -278,7 +278,7 @@ body#containerTheme{
 }
 
 .hidden-on-mobile, .hidden-on-tablet, .hidden-on-desktop{
-    opacity: 0.6;
+    opacity: 0.2;
 }
 
 // Mobile
