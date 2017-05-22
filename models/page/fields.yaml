@@ -23,3 +23,13 @@ fields:
         span: right
         type: checkbox
         comment: 'kincir.dynamictheme::lang.fields.is_hidden_comment'
+    'data[sub_domain]':
+        type: taglist
+        label: 'kincir.dynamictheme::lang.fields.limit_subdomain'
+        comment: 'kincir.dynamictheme::lang.fields.limit_subdomain_comment'
+        options: getSubdomainOptions
+        customTags: false
+    'data[default_slug_parameter]':
+        type: text
+        label: 'kincir.dynamictheme::lang.fields.default_slug_parameter'
+        comment: 'kincir.dynamictheme::lang.fields.default_slug_parameter_comment'

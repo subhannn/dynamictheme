@@ -3,14 +3,12 @@
 use System\Classes\PluginBase;
 use Backend;
 use Event;
-<<<<<<< HEAD
-=======
 use Config;
->>>>>>> 883ba381698e063279af516fe03beee9ee1ad43f
 use Kincir\Dynamictheme\Classes\Controller;
 use Cms\Classes\Controller as CmsController;
 use Kincir\Dynamictheme\Classes\ContainerPage;
 use Kincir\Dynamictheme\Twig\Extension;
+use Request;
 
 class Plugin extends PluginBase
 {
@@ -54,11 +52,7 @@ class Plugin extends PluginBase
     }
 
     public function register(){
-<<<<<<< HEAD
-=======
         Config::set('cms.twigNoCache', true);
-        
->>>>>>> 883ba381698e063279af516fe03beee9ee1ad43f
         /**
         * Register twig
         */
@@ -80,8 +74,8 @@ class Plugin extends PluginBase
             }
         });
 
-        Event::listen('cms.router.beforeRoute', function($url) {
-            return Controller::instance()->initCmsPage($url, true);
+        Event::listen('cms.router.beforeRoute', function($url, $route) {
+            return Controller::instance()->initCmsPage($url, $route);
         });
 
         Event::listen('cms.page.initComponents', function($controller, $page) {

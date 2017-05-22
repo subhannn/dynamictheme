@@ -22,21 +22,38 @@ class Index extends Controller
         BackendMenu::setContext('Kincir.Dynamictheme', 'theme', true);
     }
 
-    public function create(){
-        return $this->asExtension('FormController')->create();
+    public function onCreate(){
+        $ext = $this->asExtension('FormController');
+        $ext->create();
+
+        return view('kincir.dynamictheme::popup_setting_page', [
+            'handler' => 'onCreateSave',
+            'refresh' => true,
+            'ext'   => $ext
+        ])->render();
+    }
+
+    public function onCreateSave(){
+        return $this->asExtension('FormController')->create_onSave();
     }
 
     public function index(){
         $this->prepareVars();
     }
 
-    public function onSaveSettingPage($id){
+    public function onSaveSettingPage($id=null){
+        if(!$id)
+            $id = input('id');
+
         $ext = $this->asExtension('FormController');
 
-        $ext->update_onSave($id);
+        return $ext->update_onSave($id);
     }
 
-    public function onSettingPage($id){
+    public function onSettingPage($id=null){
+        if(!$id)
+            $id = input('id');
+
         $page = Page::find($id);
 
         if(!$page)
@@ -46,7 +63,9 @@ class Index extends Controller
         $ext->initForm($page);
 
         return view('kincir.dynamictheme::popup_setting_page', [
-            'ext'   => $ext
+            'handler' => 'onSaveSettingPage',
+            'ext'   => $ext,
+            'refresh' => input('refresh', false)?true:false
         ])->render();
     }
 

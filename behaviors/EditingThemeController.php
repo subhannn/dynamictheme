@@ -117,9 +117,10 @@ class EditingThemeController extends ControllerBehavior
 
         $data = [];
         $data['sections'] = $this->themeSections;
-        $data['path'] = $this->page->slug;
+        $data['path'] = $this->page->url;
         $data['base_url'] = url();
-        $data['page_url'] = url($this->page->slug);
+        $data['page_url'] = url($this->page->url);
+        $data['page_url_preview'] = $this->page->getPageUrl();
 
         return $data;
     }
@@ -142,7 +143,7 @@ class EditingThemeController extends ControllerBehavior
     public function onLoadSectionsList(){
         $this->loadThemeSections();
 
-        $this->vars['list_section'] = $this->themeSections;
+        $this->vars['list_section'] = $this->themeSections?$this->themeSections:[];
 
         return [
             'result'    => $this->makePartial('list_sections', $this->vars),
@@ -162,12 +163,6 @@ class EditingThemeController extends ControllerBehavior
             return [
                 'result'    => $data
             ];
-            // return [
-            //     'result'    => [
-            //         '1' => 'satu',
-            //         '2' => 'dua',
-            //     ]
-            // ];
         }
 
         return [];

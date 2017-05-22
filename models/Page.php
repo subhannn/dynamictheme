@@ -5,6 +5,7 @@ use Lang;
 use Config;
 use Cms\Classes\Theme;
 use Cms\Classes\Layout;
+use Event;
 
 /**
  * Model
@@ -84,7 +85,7 @@ class Page extends Model
                 $label = $row->title.' - '.$row->url;
                 $list[$row->id] = $label;
             }else{
-                $list[$row->url] = $row;
+                $list[$row->slug] = $row;
             }
 
             if($row->children){
@@ -99,8 +100,9 @@ class Page extends Model
                 $this->url .= $row->slug;
             }
             $this->url .= $this->slug;
+            $this->url = $this->getUrlAttribute($this->url);
         }else{
-            $this->url = $this->slug;
+            $this->url = $this->getUrlAttribute($this->slug);
         }
     }
 
@@ -125,5 +127,38 @@ class Page extends Model
         }
 
         return $result;
+    }
+
+    public function getSubdomainOptions(){
+        $subdomain = Event::fire('plugin.kincir.registerSubdomain');
+        $subs = [];
+        if(is_array($subdomain)){
+            foreach ($subdomain as $value) {
+                $subs = array_merge($subs, $value);
+            }
+        }
+        return $subs;
+    }
+
+    public function getPageUrl(){
+        $parameters = [];
+        $url = $this->url;
+
+        if(isset($this->data['sub_domain']) && !empty($this->data['sub_domain'])){
+            $subdomain = explode(',', $this->data['sub_domain']);
+            $url = url($url);
+            $url = overrideSubDomain($subdomain[0], $url);
+        }
+
+        return $url;
+    }
+
+    public function getUrlAttribute($url=null){
+        $parameters = [];
+        if(isset($this->data['default_slug_parameter']) && !empty($this->data['default_slug_parameter'])){
+            $parameters = @json_decode($this->data['default_slug_parameter'], true);
+        }
+
+        return urlFromPattern($url, $parameters);
     }
 }

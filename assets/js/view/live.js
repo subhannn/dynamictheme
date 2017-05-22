@@ -214,7 +214,7 @@ module.exports = Backbone.View.extend( {
 			.attr( {
 				id: this.previewIframe.attr('id'),
 				target: '#newTab',
-				action: themeOptions.page_url+'?preview_editing_theme=1&preview=1'
+				action: themeOptions.page_url_preview+'?preview_editing_theme=1&preview=1'
 			} )
 			.appendTo( 'body' );
 

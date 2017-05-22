@@ -6,11 +6,15 @@
 			<a href="<?= Backend::url('kincir/dynamictheme/index/editing/'.$list->id) ?>" data-request-data="id: '<?= $list->id ?>'">
 				<?= $list->title ?>
 			</a>
-			<a target="_blank" href="<?= url($list->url) ?>">(<?= $list->url ?>)</a>
+			<a target="_blank" href="<?= $list->getPageUrl() ?>">(<?= $list->slug ?>)</a>
 		</span>
 
 		<span class="fright">
-			<a href="#" data-request="onRemoveItem" data-request-confirm="Are you sure you wish to remove this item?" data-request-data="id: '<?= $list->id ?>'" class='trash'><i class='icon-trash-o'></i></a>
+			<a href="#" title="Edit Page" data-toggle="tooltip" data-control="popup" data-handler="onSettingPage" data-request-data="id:'<?= $list->id ?>',refresh:'1'" class='trash'><i class='icon-ellipsis-h'></i></a>
+		</span>
+
+		<span class="fright">
+			<a href="#" title="Delete Page" data-control="tooltip" data-request="onRemoveItem" data-request-confirm="Are you sure you wish to remove this item?" data-request-data="id: '<?= $list->id ?>'" class='trash'><i class='icon-trash-o'></i></a>
 		</span>
 	</div>
 

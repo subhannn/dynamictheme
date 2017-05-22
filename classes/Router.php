@@ -8,6 +8,9 @@ use October\Rain\Support\Str;
 use October\Rain\Router\Helper as RouterHelper;
 use Kincir\Dynamictheme\Models\Page as PageModel;
 use Kincir\Dynamictheme\Classes\ContainerPage;
+use Request;
+use Kincir\Dynamictheme\Classes\ParserTheme;
+use October\Rain\Router\Router as RainRouter;
 
 /**
  * A router for static pages.
@@ -32,6 +35,12 @@ class Router
      */
     private static $cache = [];
 
+    protected $page;
+
+    protected $routerObj = null;
+
+    protected $parameters;
+
     /**
      * Creates the router instance.
      * @param \Cms\Classes\Theme $theme Specifies the theme being processed.
@@ -50,16 +59,26 @@ class Router
     {
         $url = Str::lower(RouterHelper::normalizeUrl($url));
         $urlMap = $this->getUrlMap();
-        $urlMap = array_key_exists('info', $urlMap) ? $urlMap['info'] : [];
+        $router = $this->getRouterObject();
 
-        if (!array_key_exists($url, $urlMap)) {
+        if (!$router->match($url)) {
             return null;
         }
-        
-        $currentPage = $urlMap[$url];
-        // echo '<pre>';
-        // print_r($currentPage);
-        // exit();
+
+        $pageId = $router->matchedRoute();
+        $this->parameters = $router->getParameters();
+
+        $currentPage = $urlMap[$pageId]['info'];
+        $this->page = $currentPage;
+
+        /**
+         * Check limited by subdomain
+         * @var [type]
+         */
+        if(ParserTheme::instance()->isEditingMode() == false){
+            if($this->isLimitBySubDomain())
+                return null;
+        }
 
         $page = ContainerPage::find('base');
         if(!$page){
@@ -91,6 +110,47 @@ class Router
         // print_r($page);
         // exit();
         return $page;
+    }
+
+    /**
+     * Sets the current routing parameters.
+     * @param  array $parameters
+     * @return array
+     */
+    public function setParameters(array $parameters)
+    {
+        $this->parameters = $parameters;
+    }
+
+    /**
+     * Returns the current routing parameters.
+     * @return array
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    protected function getRouterObject()
+    {
+        if ($this->routerObj !== null) {
+            return $this->routerObj;
+        }
+
+        /*
+         * Load up each route rule
+         */
+        $router = new RainRouter();
+        foreach ($this->getUrlMap() as $id => $pageInfo) {
+            $router->route($id, $pageInfo['url']);
+        }
+
+        /*
+         * Sort all the rules
+         */
+        $router->sortRules();
+
+        return $this->routerObj = $router;
     }
 
     /**
@@ -126,11 +186,7 @@ class Router
              */
             $pages = $this->getListUrlByModel();
 
-            $map = [
-                'urls'   => [],
-                'files'  => [],
-                'titles' => []
-            ];
+            $map = [];
             foreach ($pages as $url => $row) {
                 if (!$url) {
                     continue;
@@ -139,10 +195,10 @@ class Router
                 $url = Str::lower(RouterHelper::normalizeUrl($url));
                 $file = 'default';
 
-                $map['urls'][$url] = $file;
-                $map['files'][$file] = $url;
-                $map['titles'][$file] = $row->title;
-                $map['info'][$url] = $row;
+                $map[$row->id]['url'] = $url;
+                $map[$row->id]['filename'] = $file;
+                $map[$row->id]['title'] = $row->title;
+                $map[$row->id]['info'] = $row;
             }
 
             self::$urlMap = $map;
@@ -177,5 +233,20 @@ class Router
     public function clearCache()
     {
         Cache::forget($this->getCacheKey('static-page-url-map'));
+    }
+
+    protected function isLimitBySubDomain(){
+        $subdomainLimited = (isset($this->page->data['sub_domain']) && !empty($this->page->data['sub_domain']))?$this->page->data['sub_domain']:null;
+
+        if($subdomainLimited){
+            $subdomainLimited = explode(',', $subdomainLimited);
+            if(in_array(getCurrentSubDomain(), $subdomainLimited)){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        return false;
     }
 }

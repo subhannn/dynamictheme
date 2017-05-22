@@ -38,16 +38,15 @@ class Controller
      * @param string $url Specifies the static page URL.
      * @return \Cms\Classes\Page Returns the CMS page object or NULL of the requested page was not found.
      */
-    public function initCmsPage($url, $preview_editing_theme=false)
+    public function initCmsPage($url, $route)
     {
-        if(!$preview_editing_theme)
-            return null;
-
-        // CmsCompoundObject::clearCache($this->theme);
         $router = new Router($this->theme);
         $page = $router->findByUrl($url);
-        // echo '<pre>';
-        // print_r($page);
+        
+        $parameters = $router->getParameters();
+        if(is_array($parameters) && $parameters)
+            $route->setParameters($parameters);
+        // print_r($router->getParameters());
         // exit();
         if (!$page) {
             return null;

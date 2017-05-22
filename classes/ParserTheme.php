@@ -174,6 +174,7 @@ class ParserTheme
             $cmpConfig = method_exists($componentObj, 'getConfigProperties')?$componentObj->getConfigProperties():[];
             $partialConfig = array_merge($partialConfig, $cmpConfig);
 
+            $this->setComponentPropertiesFromParams($componentObj);
             $componentObj->init();
             $componentObj->onRun();
         }
@@ -213,6 +214,39 @@ class ParserTheme
         ])->render();
 
         return MediaViewHelper::instance()->processHtml($html);
+    }
+
+    protected function setComponentPropertiesFromParams($component, $parameters = [])
+    {
+        $properties = $component->getProperties();
+        $routerParameters = $this->controller->getRouter()->getParameters();
+
+        foreach ($properties as $propertyName => $propertyValue) {
+            if (is_array($propertyValue)) {
+                continue;
+            }
+
+            $matches = [];
+            if (preg_match('/^\{\{([^\}]+)\}\}$/', $propertyValue, $matches)) {
+                $paramName = trim($matches[1]);
+
+                if (substr($paramName, 0, 1) == ':') {
+                    $routeParamName = substr($paramName, 1);
+                    $newPropertyValue = array_key_exists($routeParamName, $routerParameters)
+                        ? $routerParameters[$routeParamName]
+                        : null;
+
+                }
+                else {
+                    $newPropertyValue = array_key_exists($paramName, $parameters)
+                        ? $parameters[$paramName]
+                        : null;
+                }
+
+                $component->setProperty($propertyName, $newPropertyValue);
+                $component->setExternalPropertyName($propertyName, $paramName);
+            }
+        }
     }
 
     private function overrideValue($obj, $config){
