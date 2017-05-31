@@ -4,20 +4,16 @@ use Lang;
 use ApplicationException;
 use Backend\Classes\FormWidgetBase;
 use Kincir\Dynamictheme\Classes\BaseModelForm;
+use Kincir\Dynamictheme\Classes\FontHelper;
 
 class FontInput extends FormWidgetBase
 {
-    protected $css;
-
     /**
      * {@inheritDoc}
      */
     public function init()
     {
         $this->fillFromConfig([
-            'css',
-            // 'allowedUnit',
-            // 'placeholder'
         ]);
     }
 
@@ -35,8 +31,20 @@ class FontInput extends FormWidgetBase
      */
     public function prepareVars()
     {
-        $value = $this->getLoadValue();
-        $this->vars['fieldOptions'] = BaseModelForm::instance()->getFontList();
+        $this->vars['fieldOptions'] = FontHelper::instance()->getFontList();
+        $this->vars['field'] = $this->formField;
+        $this->vars['value'] = $this->getLoadValue();
+    }
+
+    public function getCss($type){
+        $css = $this->getConfig('css');
+        $style = isset(FontHelper::$font_bundle['style'][$type])?FontHelper::$font_bundle['style'][$type]:'';
+
+        return [
+            'selector'  => $css['selector'],
+            'type'      => 'font',
+            'style'     => $style
+        ];
     }
 
     /**
@@ -44,7 +52,7 @@ class FontInput extends FormWidgetBase
      */
     protected function loadAssets()
     {
-        // $this->addCss('css/style.css');
-        // $this->addJs('js/cssinput.js');
+        $this->addCss('css/style.css');
+        $this->addJs('js/script.js');
     }
 }

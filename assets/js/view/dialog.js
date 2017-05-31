@@ -63,7 +63,8 @@ module.exports = Backbone.View.extend( {
             	dialogOriginal.$el.addClass('size-adaptive')
 
             $('[data-control="themeForm"]').themeForm({
-            	builder: dialogOriginal.builder
+            	builder: dialogOriginal.builder,
+            	view : dialogOriginal.view
             });
 
             dialogOriginal.dialogLimitHeight()

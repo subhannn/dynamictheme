@@ -1,0 +1,8 @@
+<div id="<?= $this->getId() ?>">
+	<input type="text" 
+	name="<?= $field->getName() ?>" data-control="colorpicker" class="sm" 
+	placeholder="Hex Value" value="<?= $value ?>" 
+	data-alpha="true"
+	<?= isset($clear)?'data-clear="true"':'' ?>
+	<?= isset($defaultColor)?'data-default-color="'.$defaultColor.'"':'' ?> >
+</div>

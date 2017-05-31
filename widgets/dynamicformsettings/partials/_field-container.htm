@@ -7,12 +7,13 @@
     <?php 
     if($field->getConfig('css', false)) : 
     	$css = $field->getConfig('css');
+        echo $field->getConfig('test');
+        $arrPrev = [];
+        if(isset($css['selector'])) $arrPrev['selector'] = $css['selector'];
+        if(isset($css['style'])) $arrPrev['style'] = $css['style'];
+        if(isset($css['type'])) $arrPrev['type'] = $css['type'];
     ?>
-    data-control="themeForm" data-preview="<?= e(json_encode([
-    	'selector'	=> $css['selector'],
-    	'style'		=> $css['style'],
-    	'type'		=> $css['type']
-    ])) ?>"
+    data-preview="<?= e(json_encode($arrPrev)) ?>"
     <?php endif; ?>
     ><?=
     /* Must be on the same line for :empty selector */

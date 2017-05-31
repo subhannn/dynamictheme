@@ -6,7 +6,7 @@ module.exports = panels.view.dialog.extend( {
 		'click .close_modal': 'onCloseDialog'
 	},
 
-	componentView : null,
+	view : null,
 
 	form: null,
 
@@ -22,7 +22,7 @@ module.exports = panels.view.dialog.extend( {
 	render: function(){
 		var componentDialog = this
 
-		$.request('onLoadComponent', {
+		$.request('onLoadModuleSetting', {
 			data: {
 				componentClass: this.model.get('component'),
 				code: this.model.get('code'),
@@ -46,7 +46,7 @@ module.exports = panels.view.dialog.extend( {
 
 	onSubmitForm: function(){
 		// console.log(this.form.serializeObject())
-		this.componentView.saveComponent(this.form.serializeObject())
+		this.view.saveComponent(this.form.serializeObject())
 		this.closeDialog()
 	},
 

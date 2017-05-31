@@ -9,6 +9,7 @@ use October\Rain\Parse\Syntax\Parser as SyntaxParser;
 use Exception;
 use Cms\Classes\CmsCompoundObject;
 use Kincir\Dynamictheme\Classes\ContainerPage;
+use Kincir\Dynamictheme\Classes\ParserTheme;
 
 /**
  * Represents a static page controller.
@@ -53,23 +54,6 @@ class Controller
         }
 
         return $page;
-
-        // $viewBag = $page->viewBag;
-
-        // $cmsPage = CmsPage::inTheme($this->theme);
-        // $cmsPage->url = $url;
-        // $cmsPage->apiBag['staticPage'] = $page;
-
-        
-        //  * Transfer specific values from the content view bag to the page settings object.
-         
-        // $viewBagToSettings = ['title', 'layout', 'meta_title', 'meta_description', 'is_hidden'];
-
-        // foreach ($viewBagToSettings as $property) {
-        //     $cmsPage->settings[$property] = array_get($viewBag, $property);
-        // }
-
-        // return $cmsPage;
     }
 
     public function injectPageTwig($controller, $page, $loader, $twig)
@@ -80,24 +64,6 @@ class Controller
         $page->setController($controller);
     }
 
-    public function getPageContents($page)
-    {
-        if (!isset($page->apiBag['staticPage'])) {
-            return;
-        }
-
-        return $page->apiBag['staticPage']->getProcessedMarkup();
-    }
-
-    public function getPlaceholderContents($page, $placeholderName, $placeholderContents)
-    {
-        if (!isset($page->apiBag['staticPage'])) {
-            return;
-        }
-
-        return $page->apiBag['staticPage']->getProcessedPlaceholderMarkup($placeholderName, $placeholderContents);
-    }
-
     public function initPageComponents($cmsController, $page)
     {
         if ( !$page instanceof ContainerPage) {
@@ -105,18 +71,5 @@ class Controller
         }
 
         $page->initCmsComponents($cmsController);
-    }
-
-    public function parseSyntaxFields($content)
-    {
-        try {
-            return SyntaxParser::parse($content, [
-                'varPrefix' => 'extraData.',
-                'tagPrefix' => 'page:'
-            ])->toTwig();
-        }
-        catch (Exception $ex) {
-            return $content;
-        }
     }
 }

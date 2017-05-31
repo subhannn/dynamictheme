@@ -1,6 +1,7 @@
 <?php namespace Kincir\Dynamictheme\Classes;
 
 use Kincir\MediaManager\Classes\KincirMediaLibrary;
+use Kincir\Dynamictheme\Classes\FontHelper;
 
 class AttributesHelper
 {
@@ -9,7 +10,8 @@ class AttributesHelper
 	protected $value = null;
 
 	protected $getMethod = [
-		'kincirmediafinder'	=> 'getMediaFinder'
+		'kincirmediafinder'	=> 'getMediaFinder',
+		'fontinput'			=> 'getFontInput'
 	];
 
 	public function __construct($attributes=[], $value=''){
@@ -38,6 +40,10 @@ class AttributesHelper
 			return '';
 
 		return url($detail->publicUrl);
+	}
+
+	protected function getFontInput(){
+		return FontHelper::instance()->getFontReplacer($this->value);
 	}
 
 	public function __toString(){

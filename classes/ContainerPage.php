@@ -69,10 +69,15 @@ class ContainerPage extends CmsCompoundObject
         $this->initConfig();
 
         $this->helper->initComponent();
+        $this->helper->makeAttachExternalAssets();
+        if(!$this->helper->isEditingMode()){
+            $this->helper->makeInlineStyle();
+        }
     }
 
     public function getTwigContent(){
         $this->initConfig();
+
         return $this->helper->render();
     }
 
@@ -80,7 +85,6 @@ class ContainerPage extends CmsCompoundObject
         $config = input('config');
         $helper = $this->helper->setController($this->controller);
         
-        $helper->renderCustomStyle();
         if(isset($this->controller->getPage()->settings['config']) && !$config){
             $config = $this->controller->getPage()->settings['config'];
             $config = json_decode($config)?$config:'';

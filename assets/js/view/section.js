@@ -111,7 +111,7 @@ module.exports = Backbone.View.extend( {
 			this.dialog.setBuilder( this.builder );
 
 			// Store the widget view
-			this.dialog.sectionView = this;
+			this.dialog.view = this;
 		}
 
 		return this.dialog
@@ -150,7 +150,7 @@ module.exports = Backbone.View.extend( {
 		})
 
 		componentView.builder = this.builder;
-		componentView.sectionView = this
+		componentView.parentView = this
 		componentView.render();
 		componentView.visualCreate()
 

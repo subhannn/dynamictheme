@@ -1,14 +1,8 @@
 fields:
-    title:
-        label: TItle
-        oc.commentPosition: ''
+    google_font:
+        label: 'kincir.dynamictheme::lang.fields.default_font'
         span: full
-        type: text
-    type:
-        label: Type
-        oc.commentPosition: ''
-        options:
-            new: Latest
-            random: Random
-        span: auto
-        type: dropdown
+        type: taglist
+        customTags: false
+        default: Cookie,Indie Flower,Kaushan Script,Kumar One,Lato,Lobster,Orbitron,Pacifico,Playfair Display,Quicksand
+        options: true

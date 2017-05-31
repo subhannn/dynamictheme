@@ -58,12 +58,12 @@ class Extension extends Twig_Extension
         return $parsers;
     }
 
-    public function renderStyleDynamicTheme(){
-        if(!$this->controller->getPage() instanceof ContainerPage)
-            return;
+    // public function renderStyleDynamicTheme(){
+    //     if(!$this->controller->getPage() instanceof ContainerPage)
+    //         return;
 
-        return $this->helper->renderCustomStyle();
-    }
+    //     return $this->helper->renderCustomStyle();
+    // }
 
     public function themeComponentFunction($name, $parameters = []){
         return $this->helper->makeComponent($name, $parameters);

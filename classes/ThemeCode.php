@@ -60,7 +60,7 @@ class ThemeCode extends CodeBase
         return $components;
     }
 
-	public function onLoadComponent(){
+	public function onLoadModuleSetting(){
 		$attr = post();
 		$code = post('code');
         unset($attr['code']);

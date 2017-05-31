@@ -10,6 +10,7 @@ use Kincir\Dynamictheme\Classes\ThemeModule;
 use Cms\Classes\MediaViewHelper;
 use Kincir\Dynamictheme\Classes\BaseModelForm;
 use Cms\Classes\ComponentHelpers;
+use Event;
 
 /**
  * The System Twig extension class implements common Twig functions and filters.
@@ -21,6 +22,7 @@ class ParserTheme
 {
     use \October\Rain\Support\Traits\Singleton;
     use \System\Traits\ConfigMaker;
+    use \Kincir\Dynamictheme\Classes\StyleTrait;
 
     protected $controller;
 
@@ -132,8 +134,15 @@ class ParserTheme
                 foreach ($row->sections as $section) {
                     $sectionObj = $this->getSection($section);
                     $this->renderPartial($sectionObj, $section, true);
+                    foreach ($section->components as $component) {
+                        $partials = $this->getComponent($component->code);
+
+                        $this->renderPartial($partials, $component, true);
+                    }
                 }
             }
+
+            $this->defaultAssetsOnEditing();
         }
     }
 
@@ -180,25 +189,19 @@ class ParserTheme
             $componentObj->onRun();
         }
 
-        if($initComponent)
-            return;
-
-        // echo $objPartial->getTwigContent();
-        // exit();
         if(!$partialConfig){
             $conf = $this->getDefaultAttribute();
             $partialConfig = isset($conf->attr)?$conf->attr:[];
         }
 
         $customStyle = $formHelper->parseStyleToArray($partialConfig, $style);
-        $styleStr = '';
-        // print_r($customStyle);
-        // exit();
-        if($this->isEditingMode()){
-            $styleStr = $formHelper->covertStyle($customStyle);
-        }
+        $this->addStyleRule($customStyle);
 
-        $this->controller->configuration['customStyle'] = array_merge($this->controller->configuration['customStyle'], $customStyle);
+        if($initComponent)
+            return;
+
+        $styleStr = '';
+        $styleStr = $formHelper->covertStyle($customStyle);
         
         CmsException::mask($objPartial, 400);
         $this->controller->getLoader()->setObject($objPartial);
@@ -271,22 +274,15 @@ class ParserTheme
         return $config;
     }
 
-    public function renderCustomStyle(){
-        $this->defaultAssetsOnEditing();
-        $formHelper = FormHelper::instance();
-        if(!$this->isEditingMode()){
-            $customStyle = $this->controller->configuration['customStyle'];
-            return $formHelper->covertStyle($customStyle);
-        }else{
-            return;
-        }
-    }
-
     public function defaultAssetsOnEditing(){
         if($this->isEditingMode()){
+            $this->addExternalCss(FontHelper::instance()->getDefaultGoogleFontLink());
             $this->controller->addCss('/plugins/kincir/dynamictheme/assets/css/custom.css');
             $this->controller->addCss('/plugins/kincir/dynamictheme/assets/css/font-awesome.css');
             $this->controller->addJs('/plugins/kincir/dynamictheme/assets/js/javascript/custom.js');
+        }else{
+            $url = FontHelper::instance()->getCustomFontLoad();
+            $this->addExternalCss($url);
         }
     }
 
@@ -298,6 +294,14 @@ class ParserTheme
         ]);
 
         return $html;
+    }
+
+    protected function getComponent($name=''){
+        $partials = ThemeModule::find($name);
+
+        $partials->{'viewId'} = $partials->code;
+
+        return $partials;
     }
 
     protected function getSection($section){
@@ -340,9 +344,7 @@ class ParserTheme
     public function makeComponent($name, $parameters=[]){
         $manager = ComponentManager::instance();
 
-        $partials = ThemeModule::find($name);
-
-        $partials->{'viewId'} = $partials->code;
+        $partials = $this->getComponent($name);
 
         $sectionId = isset($parameters['sectionId'])?$parameters['sectionId']:'';
         $configData = $this->controller->configuration['configData'];
@@ -359,7 +361,7 @@ class ParserTheme
         return $this->renderPartial($partials, $attr);
     }
     
-    public function makeFormConfig($objPartial, $titleForm = 'Modules Edit'){
+    public function makeFormConfig($objPartial, $type = 'modules', $titleForm = 'Modules Edit'){
         $manager = ComponentManager::instance();
         $componentConfig = isset($objPartial->attr)?$objPartial->attr:[];
         foreach ($objPartial->settings['components'] as $component => $properties) {
@@ -387,7 +389,7 @@ class ParserTheme
 
             $cmpConfig = method_exists($componentObj, 'getConfigProperties')?$componentObj->getConfigProperties():[];
             $componentConfig = array_merge($componentConfig, $cmpConfig, $compProps);
-            
+
             $objPartial->components[$alias] = $componentObj;
 
             $componentObj->init();
@@ -416,7 +418,8 @@ class ParserTheme
 
         $html = view('kincir.dynamictheme::container_form', [
             'title' => $titleForm,
-            'content'  => $form->render()
+            'content'  => $form->render(),
+            'type'  => $type
         ])->render();
 
         return $html;

@@ -1,8 +1,9 @@
+<?php $code = input('code'); ?>
 <div class="modal-header">
     <h4 class="modal-title"><?= $title ?></h4>
 </div>
 <div class="modal-body">
-	<form method="post" data-change-monitor>
+	<form method="post" data-change-monitor data-control="themeForm" data-parents="[<?= $type."='".trim($code)."'" ?>]">
 		<?= $content ?>
 	</form>
 </div>

@@ -9,7 +9,7 @@ module.exports = Backbone.View.extend( {
 		'click [cmd="component-setting"]': 'onSettingClick'
 	},
 
-	sectionView: null,
+	parentView: null,
 
 	showOption: false,
 
@@ -30,25 +30,25 @@ module.exports = Backbone.View.extend( {
 	 * @returns {panels.view.row}
 	 */
 	render: function () {
-		if(this.sectionView.$el.find('[modules="'+this.model.get('code')+'"]').is(':empty')){
-			this.builder.iframe.callPartial('onLoadComponent', this.model.toJSON(), 'callbackPartial', this)
+		if(this.parentView.$el.find('[modules="'+this.model.get('code')+'"]').is(':empty')){
+			this.builder.iframe.callPartial('onLoadModuleSetting', this.model.toJSON(), 'callbackPartial', this)
 		}else{
 			this.$el = null
-			this.setElement(this.sectionView.$el.find('[modules="'+this.model.get('code')+'"]'))
+			this.setElement(this.parentView.$el.find('[modules="'+this.model.get('code')+'"]'))
 			this.$el.data('view', this)
 			this.$el.addClass('loaded')
 		}
 	},
 
 	callbackPartial: function(data){
-		var container = this.sectionView.$el.find('[modules="'+this.model.get('code')+'"]').parent()
+		var container = this.parentView.$el.find('[modules="'+this.model.get('code')+'"]').parent()
 
 		// this.remove()
 		if(this.$el.hasClass('loaded')){
 			this.builder.iframe.html(this.$el, data.result)
 		}else{
 			this.builder.iframe.appendTo(container, data.result)
-			this.setElement(this.sectionView.$el.find('[modules="'+this.model.get('code')+'"]'))
+			this.setElement(this.parentView.$el.find('[modules="'+this.model.get('code')+'"]'))
 		}
 		var originalView = this
 		originalView.$el.data('view', this)
@@ -82,7 +82,7 @@ module.exports = Backbone.View.extend( {
 			this.dialog.setBuilder( this.builder );
 
 			// Store the widget view
-			this.dialog.componentView = this;
+			this.dialog.view = this;
 		}
 
 		return this.dialog
@@ -107,6 +107,6 @@ module.exports = Backbone.View.extend( {
 		var data = this.model.toJSON()
 		data['nonwrap'] = '1';
 		
-		this.builder.iframe.callPartial('onLoadComponent', data, 'callbackPartial', this)
+		this.builder.iframe.callPartial('onLoadModuleSetting', data, 'callbackPartial', this)
 	}
 } );

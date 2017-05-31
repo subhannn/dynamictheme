@@ -121,25 +121,4 @@ class BaseModelForm{
 
 		return [];
 	}
-
-	public function getFontList(){
-		$external = $this->getExternalFont();
-
-		return $external;
-	}
-
-	public function getExternalFont(){
-		$theme = Theme::getActiveTheme();
-		$themeConfig = $theme->getConfig();
-		if(isset($themeConfig['theme']) && isset($themeConfig['theme']['font']) && count($themeConfig['theme']['font']) > 0){
-			$fonts = [];
-			foreach ($themeConfig['theme']['font'] as $font) {
-				$fonts[$font] = $font;
-			}
-
-			return $fonts;
-		}
-
-		return [];
-	}
 }

@@ -1,44 +1,3 @@
-(function ($) {
-
-    window.addRule = function (selector, styles, sheet) {
-
-        if (typeof styles !== "string") {
-            var clone = "";
-            for (var style in styles) {
-                var val = styles[style];
-
-                style = style.replace(/([A-Z])/g, "-$1").toLowerCase(); // convert to dash-case
-                clone += style + ":" + (style === "content" ? '"' + val + '"' : val) + "; ";
-            }
-            styles = clone;
-        }
-        // console.log(sheet)
-        sheet = sheet || document.styleSheets[0];
-        if(typeof sheet.styleSheets == 'object'){
-            var stylesheet = null;
-            if(sheet.styleSheets.length){
-                var stylesheet = sheet.getElementById('livePreviewStyle')
-                if(stylesheet == null){
-                    stylesheet = sheet.createElement('style')
-                    stylesheet.id = 'livePreviewStyle'
-                    sheet.getElementsByTagName('body')[0].appendChild(stylesheet);
-                }
-                stylesheet = sheet.styleSheets[sheet.styleSheets.length - 1];
-
-                stylesheet.addRule(selector, styles);
-            }
-        }
-    };
-
-    if ($) {
-        $.fn.addRule = function (styles, sheet) {
-            addRule(this.selector, styles, sheet);
-            return this;
-        };
-    }
-
-}(window.jQuery));
-
 +function ($) { "use strict";
     var Base = $.oc.foundation.base,
         BaseProto = Base.prototype
@@ -47,6 +6,9 @@
         this.$el = $(element)
         this.options = options || {}
         this.$style = null
+        this.$preview = null;
+        this.style = null;
+        this.oldStyle = null;
 
         $.oc.foundation.controlUtils.markDisposable(element)
         Base.call(this)
@@ -57,56 +19,98 @@
     ThemeForm.prototype.constructor = ThemeForm
 
     ThemeForm.prototype.init = function() {
-        this.$el.find('[name^="_"]').prop('disabled', true)
-        this.$el.on('change', '[name]:not([data-preview-style])', this.proxy(this.bindByChange, this))
-        this.$el.on('change', '[data-preview-style]', this.proxy(this.bindByChange, this))
+        this.bindStyle()
+        var self = this
+        $(this.$el.prop('elements')).each(function(){
+            var $self = $(this)
+            if($self.parents('[data-preview]').length > 0){
+                $self.bind('change input', self.proxy(self.bindByChange, self))
+            }
+        });
+
+        this.$el.closest('.modal-dialog').find('.close_modal').on('click', function(e){
+            self.style.html(self.oldStyle)
+        })
+    }
+
+    ThemeForm.prototype.bindStyle = function(e){
+        this.style = this.options.view.$el.find('> style');
+        if(this.style.length == 0){
+            var style = $('<style type="text/css"></style>');
+            this.options.view.$el.append(style)
+            this.style = style
+        }
+        this.oldStyle = this.style.html()
     }
 
     ThemeForm.prototype.bindByChange = function(e){
-        var $target = $(e.target)
-        this.proccessPreview($target)
+        this.proccessPreview()
     }
 
-    ThemeForm.prototype.proccessPreview = function($target) {
-        var checkbox = $target.not(':not(input[type=checkbox], input[type=radio])')
-        var input = $target.not('input[type=checkbox], input[type=radio], input[type=button], input[type=submit]')
-        var value = false;
-        if(checkbox.length > 0){ // check
-            value = checkbox.prop('checked')?'1':'0'
-        }else if(input.length > 0){ // val
-            value = input.val()
-        }
+    ThemeForm.prototype.proccessPreview = function() {
+        var self = this
+        var style = CSSOM.parse('')
+        var listCss = {}
+        $(this.$el.prop('elements')).each(function(){
+            var $self = $(this)
+            console.log($self)
+            if($self.parents('[data-preview]').length > 0){
+                var parentData = $self.parents('[data-preview]').data();
+                this.preview = parentData.preview
+                var fieldName = $self.attr('name')
+                
+
+                if($self.is(':checkbox')){
+                    var val = $self.prop('checked')?'1':false
+                }else{
+                    var val = $self.val()
+                }
+                
+                var isFalse = ['0', 'undefined'];
+                val = isFalse.indexOf(val)>=0?false:val
+                console.log(fieldName)
+                console.log(val)
+                if(val && !_.isUndefined(fieldName)){
+                    if(this.preview.type == 'font'){
+                        var attr = this.preview.style
+                        attr = attr.replace(/\[value\]/, val)
+                        if(_.isUndefined(listCss[this.preview.selector])){
+                            listCss[this.preview.selector] = {}
+                        }
+                        
+                        if(_.isUndefined(listCss[this.preview.selector][fieldName])){
+                            listCss[this.preview.selector][fieldName] = {}
+                        }
+
+                        listCss[this.preview.selector][fieldName] = attr
+                    }else if(this.preview.type == 'refresh'){
+                        var attr = this.preview.style
+                        attr = attr.replace(/\[value\]/, val)
+                        if(_.isUndefined(listCss[this.preview.selector])){
+                            listCss[this.preview.selector] = {}
+                        }
+                        
+                        if(_.isUndefined(listCss[this.preview.selector][fieldName])){
+                            listCss[this.preview.selector][fieldName] = {}
+                        }
+
+                        listCss[this.preview.selector][fieldName] = attr
+                    }
+                }
+            }
+        });
         
-        if(!value) return;
-
-        if($target.data('preview-style')){
-            var attr = $target.data('preview-style');
-        }else{
-            var attr = this.options.preview.style;
-        }
-
-        if(this.options.preview.type == 'font'){
-            this.font(value, attr)
-        }else if(this.options.preview.type == 'refresh'){
-            this.addCss(attr, value)
-        }
+        $.each(listCss, function(selector, attr){
+            var selec = selector + '{ '
+            $.each(attr, function(fieldName, prop){
+                selec += prop
+            })
+            selec += '}'
+            style.insertRule(selec)
+        })
+        
+        this.style.html(style.toString())
     }
-
-    ThemeForm.prototype.font = function(value, attr) {
-        this.addCss(attr, "'"+value+"'")
-    }
-
-    ThemeForm.prototype.addCss = function(attribute, value) {
-        if(attribute.indexOf('[value]') < 0){
-            attribute = attribute+': [value];'
-        }
-
-        attribute = attribute.replace(/\[value\]/, value)
-
-        // console.log(attribute)
-
-        addRule(this.options.preview.selector, attribute, this.options.builder.iframe.$el[0].contentDocument)
-    }    
 
     ThemeForm.prototype.dispose = function() {
 

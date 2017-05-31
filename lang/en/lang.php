@@ -40,6 +40,7 @@
         'limit_subdomain' => 'Limit by Subdomain',
         'limit_subdomain_comment' => 'Choose ur page if you want limit by subdomain',
         'default_slug_parameter' => 'Default Slug Parameters',
-        'default_slug_parameter_comment' => 'If a slug uses a parameter such as :slug, enter a value for it here. Enter valid JSON - for example {"slug":"my-page-slug"}'
+        'default_slug_parameter_comment' => 'If a slug uses a parameter such as :slug, enter a value for it here. Enter valid JSON - for example {"slug":"my-page-slug"}',
+        'default_font'  => 'Default Font'
     ],
 ];

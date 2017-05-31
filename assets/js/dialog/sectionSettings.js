@@ -6,7 +6,7 @@ module.exports = panels.view.dialog.extend( {
 		'click .close_modal': 'onCloseDialog'
 	},
 
-	sectionView : null,
+	view : null,
 
 	form: null,
 
@@ -46,7 +46,7 @@ module.exports = panels.view.dialog.extend( {
 	},
 
 	onSubmitForm: function(){
-		this.sectionView.saveComponent(this.form.serializeObject())
+		this.view.saveComponent(this.form.serializeObject())
 		this.closeDialog()
 	},
 

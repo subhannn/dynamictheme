@@ -6,9 +6,11 @@ use Event;
 use Config;
 use Kincir\Dynamictheme\Classes\Controller;
 use Cms\Classes\Controller as CmsController;
+use Backend\Classes\Controller as BackendController;
 use Kincir\Dynamictheme\Classes\ContainerPage;
 use Kincir\Dynamictheme\Twig\Extension;
 use Request;
+use Block;
 
 class Plugin extends PluginBase
 {
@@ -18,10 +20,6 @@ class Plugin extends PluginBase
             'Kincir\Dynamictheme\Components\Article' => 'DynamicThemeArticle',
             'Kincir\Dynamictheme\Components\KincirFans' => 'KincirFans',
         ];
-    }
-
-    public function registerSettings()
-    {
     }
     
     public function registerFormWidgets() {
@@ -37,6 +35,10 @@ class Plugin extends PluginBase
             'Kincir\Dynamictheme\FormWidgets\TokenInput' => [
                 'label' => 'Token Input',
                 'code' => 'tokeninput'
+            ],
+            'Kincir\Dynamictheme\FormWidgets\CustomColor' => [
+                'label' => 'Custom Color',
+                'code' => 'customcolor'
             ],
         ];
     }
@@ -81,5 +83,22 @@ class Plugin extends PluginBase
         Event::listen('cms.page.initComponents', function($controller, $page) {
             Controller::instance()->initPageComponents($controller, $page);
         });
+
+        BackendController::extend(function($controller){
+            $controller->addJs('/plugins/kincir/dynamictheme/assets/js/jquery-ui.js');
+        });
+    }
+
+    public function registerSettings(){
+        return [
+            'settings' => [
+                'label'       => 'Dynamictheme Settings',
+                'description' => 'Configure dynamictheme settings.',
+                'icon'        => 'icon-paint-brush',
+                'class'       => 'Kincir\Dynamictheme\Models\Settings',
+                'order'       => 100,
+                'permissions' => ['backend.access_dashboard'],
+            ]
+        ];
     }
 }

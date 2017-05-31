@@ -1,0 +1,5 @@
+{
+    "require": {
+        "anlutro/curl": "^1.4"
+    }
+}

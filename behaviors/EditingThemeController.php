@@ -67,10 +67,10 @@ class EditingThemeController extends ControllerBehavior
 
     public function loadAssets(){
         $this->controller->addCss('/plugins/kincir/dynamictheme/assets/css/form.css');
-        $this->controller->addJs('/plugins/kincir/dynamictheme/assets/js/jquery-ui.js');
         $this->controller->addJs('/plugins/kincir/dynamictheme/assets/build/bower_components/underscore/underscore-min.js');
         $this->controller->addJs('/plugins/kincir/dynamictheme/assets/build/bower_components/backbone/backbone-min.js');
         $this->controller->addJs('/plugins/kincir/dynamictheme/assets/js/build.js');
+        // $this->controller->addJs('/plugins/kincir/dynamictheme/assets/js/javascript/cssom/build/CSSOM.js');
     }
 
     public function editing($id){
@@ -121,15 +121,16 @@ class EditingThemeController extends ControllerBehavior
         $data['base_url'] = url();
         $data['page_url'] = url($this->page->url);
         $data['page_url_preview'] = $this->page->getPageUrl();
+        $data['css'] = [];
 
         return $data;
     }
 
-    public function onLoadComponent(){
+    public function onLoadModuleSetting(){
         $code = post('code');
         $module = ThemeModule::find($code);
 
-        return ParserTheme::instance()->setController($this->controller)->makeFormConfig($module);
+        return ParserTheme::instance()->setController($this->controller)->makeFormConfig($module, 'modules');
     }
 
     public function onLoadSectionSettings(){
@@ -137,7 +138,7 @@ class EditingThemeController extends ControllerBehavior
         $section = Section::find($code);
         $section->viewId = post('id');
 
-        return ParserTheme::instance()->setController($this->controller)->makeFormConfig($section);
+        return ParserTheme::instance()->setController($this->controller)->makeFormConfig($section, 'sections', 'Sections Settings');
     }
 
     public function onLoadSectionsList(){

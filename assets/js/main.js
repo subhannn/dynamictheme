@@ -77,6 +77,8 @@ $.fn.serializeObject = function(){
 };
 
 jQuery(function($) {
+    window.CSSOM = require('./lib/index')
+
     var dropdown = require('./javascript/dropdown')
     var previewForm = require('./javascript/previewForm')
 

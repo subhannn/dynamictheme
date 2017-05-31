@@ -150,7 +150,11 @@ class FormHelper
 
 	public function parseStyleToArray($config=[], $attributes=[]){
 		$this->parse($config);
-
+		// echo '<pre>';
+		// print_r($this->styles);
+		// print_r($config);
+		// print_r($attributes);
+		// exit();
 		$style = [];
 		if(is_array($this->styles) && !empty($this->styles)){
 			foreach ($this->styles as $key => $value) {
@@ -158,7 +162,7 @@ class FormHelper
 					$search = '[value]';
 					$replace = new AttributesHelper($value['attr'], $attributes[$key]);
 					$selector = (!empty($parentSelector)?$parentSelector.' ':'').$value['selector'];
-					$style[$selector][] = str_replace($search, $replace, $value['style']);
+					$style[$selector][] = str_replace($search, $replace, isset($value['style'])?$value['style']:'[value]');
 				}
 			}
 		}
