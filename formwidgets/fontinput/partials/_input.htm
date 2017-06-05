@@ -1,48 +1,55 @@
 <div id="<?= $this->getId() ?>" class="row" style="margin-right: 0px;">
 	<div class="element col-xs-5"
-	data-preview="<?= e(json_encode($this->getCss('font_family'))) ?>">
+	data-preview="<?= e(json_encode($this->getCss('font_family'))) ?>" data-control="tooltip" title="Font Type">
 		<select
 	        id="<?= $this->getId() ?>"
 	        class="form-control custom-select"
 	        name="<?= $field->getName() ?>[font_family]"
 	        data-preview-style="<?= e('font-family') ?>"
 	        >
-	        <?php foreach ($fieldOptions as $idx => $option): ?>
-	            <?php
+	        <?php $counter = 0; foreach ($fieldOptions as $idx => $option): ?>
+	        	<?php
 	            	$font_family = isset($value['font_family'])?$value['font_family']:'';
 	                if (!is_array($option)) $option = [$option];
 	            ?>
+	            <?php if($counter==0): ?>
+	        	<option
+	                <?= $font_family == '' ? 'selected="selected"' : '' ?>
+	                value=""
+	            >Default</option>
+	        	<?php endif; ?>
+
 	            <option
 	                <?= $idx == $font_family ? 'selected="selected"' : '' ?>
 	                <?php if (isset($option[1])): ?>data-<?=strpos($option[1],'.')?'image':'icon'?>="<?= $option[1] ?>"<?php endif ?>
 	                value="<?= $idx ?>"
 	            ><?= e(trans($option[0])) ?></option>
-	        <?php endforeach ?>
+	        <?php $counter++; endforeach; ?>
 	    </select>
 	</div>
 	<div class="btn-font-group">
-		<span data-preview="<?= e(json_encode($this->getCss('font_weight'))) ?>">
+		<span data-preview="<?= e(json_encode($this->getCss('font_weight'))) ?>" data-control="tooltip" title="Bold">
 			<input id="<?= $this->getId() ?>-font_weight" type="checkbox" 
 			name="<?= $field->getName() ?>[font_weight]" 
 			value="1" 
 			<?= (isset($value['font_weight']) && $value['font_weight']=='1')?'checked="checked"':'' ?> >
 			<label for="<?= $this->getId() ?>-font_weight" class="btn-font icon-bold"></label>
 		</span>
-		<span data-preview="<?= e(json_encode($this->getCss('font_style'))) ?>">
+		<span data-preview="<?= e(json_encode($this->getCss('font_style'))) ?>" data-control="tooltip" title="Italic">
 			<input id="<?= $this->getId() ?>-font_style" type="checkbox" 
 			name="<?= $field->getName() ?>[font_style]" 
 			value="1" 
 			<?= (isset($value['font_style']) && $value['font_style']=='1')?'checked="checked"':'' ?> >
 			<label for="<?= $this->getId() ?>-font_style" class="btn-font icon-italic"></label>
 		</span>
-		<span data-preview="<?= e(json_encode($this->getCss('text_transform'))) ?>">
+		<span data-preview="<?= e(json_encode($this->getCss('text_transform'))) ?>" data-control="tooltip" title="Uppercase">
 			<input id="<?= $this->getId() ?>-text_transform" type="checkbox" 
 			name="<?= $field->getName() ?>[text_transform]" 
 			value="1" 
 			<?= (isset($value['text_transform']) && $value['text_transform']=='1')?'checked="checked"':'' ?> >
 			<label for="<?= $this->getId() ?>-text_transform" class="btn-font icon-font"></label>
 		</span>
-		<span data-preview="<?= e(json_encode($this->getCss('text_decoration'))) ?>">
+		<span data-preview="<?= e(json_encode($this->getCss('text_decoration'))) ?>" data-control="tooltip" title="Underline">
 			<input id="<?= $this->getId() ?>-text_decoration" type="checkbox" 
 			name="<?= $field->getName() ?>[text_decoration]" 
 			value="1" 

@@ -200,9 +200,8 @@ class ParserTheme
         if($initComponent)
             return;
 
-        $styleStr = '';
         $styleStr = $formHelper->covertStyle($customStyle);
-        
+        $isEditing = $this->isEditingMode();
         CmsException::mask($objPartial, 400);
         $this->controller->getLoader()->setObject($objPartial);
         $template = $this->controller->getTwig()->loadTemplate($objPartial->getFilePath());
@@ -211,9 +210,9 @@ class ParserTheme
 
         $partialType = $objPartial->getParentType();
         $html = view('kincir.dynamictheme::template.'.$partialType, [
-            'content'   => $result.$styleStr,
+            'content'   => $result.($isEditing?$styleStr:''),
             'id'        => $objPartial->viewId,
-            'isEditingMode'=> $this->isEditingMode(),
+            'isEditingMode'=> $isEditing,
             'wrap'      => input('nonwrap')
         ])->render();
 

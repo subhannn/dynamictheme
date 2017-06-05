@@ -476,7 +476,6 @@ module.exports = panels.view.dialog.extend( {
         var listCss = {}
         $(this.$el.prop('elements')).each(function(){
             var $self = $(this)
-            console.log($self)
             if($self.parents('[data-preview]').length > 0){
                 var parentData = $self.parents('[data-preview]').data();
                 this.preview = parentData.preview
@@ -491,8 +490,6 @@ module.exports = panels.view.dialog.extend( {
                 
                 var isFalse = ['0', 'undefined'];
                 val = isFalse.indexOf(val)>=0?false:val
-                console.log(fieldName)
-                console.log(val)
                 if(val && !_.isUndefined(fieldName)){
                     if(this.preview.type == 'font'){
                         var attr = this.preview.style

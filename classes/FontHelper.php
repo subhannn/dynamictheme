@@ -28,7 +28,7 @@ class FontHelper
 
     	$str = '';
     	foreach ($value as $key => $val) {
-    		if(isset(self::$font_bundle['style'][$key])){
+    		if(isset(self::$font_bundle['style'][$key]) && !empty($val)){
     			if($key == 'font_family')
     				$this->font_load[] = $val;
 
@@ -55,7 +55,7 @@ class FontHelper
 
     	$fonts = str_replace(' ', '+', implode('|', $result));
     	if(!$fonts) return '';
-    	
+
     	return $this->google_font_url.$fonts;
     }
 

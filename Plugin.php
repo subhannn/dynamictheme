@@ -40,6 +40,10 @@ class Plugin extends PluginBase
                 'label' => 'Custom Color',
                 'code' => 'customcolor'
             ],
+            'Kincir\Dynamictheme\FormWidgets\RangeSlider' => [
+                'label' => 'Range Slider',
+                'code' => 'rangeslider'
+            ],
         ];
     }
 
@@ -82,10 +86,6 @@ class Plugin extends PluginBase
 
         Event::listen('cms.page.initComponents', function($controller, $page) {
             Controller::instance()->initPageComponents($controller, $page);
-        });
-
-        BackendController::extend(function($controller){
-            $controller->addJs('/plugins/kincir/dynamictheme/assets/js/jquery-ui.js');
         });
     }
 

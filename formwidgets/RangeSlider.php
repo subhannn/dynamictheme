@@ -4,20 +4,50 @@ use Lang;
 use ApplicationException;
 use Backend\Classes\FormWidgetBase;
 
-class CustomColor extends FormWidgetBase
+class RangeSlider extends FormWidgetBase
 {
-    public $clear = true;
+	/**
+	 * Min value of integer slider
+	 * @var integer
+	 */
+	public $min = 0;
 
-    public $defaultColor = '#ffffff';
+	/**
+	 * Max value of integer slider
+	 * @var integer
+	 */
+	public $max = 100;
 
-    /**
+	/**
+	 * Range of slider can min, max, or true
+	 * @var string
+	 */
+	public $range = 'min';
+
+	/**
+	 * Mode of slider, you can number or css
+	 * @var string
+	 */
+	public $mode = 'number';
+
+	/**
+	 * Css style point px, em, 
+	 * @var string
+	 */
+	public $cssStylePoint = 'px';
+
+	/**
      * {@inheritDoc}
      */
     public function init()
     {
         $this->fillFromConfig([
-            'clear',
-            'defaultColor'
+        	'min',
+        	'max',
+        	'orientation',
+        	'range',
+        	'mode',
+        	'cssStylePoint'
         ]);
     }
 
@@ -37,12 +67,6 @@ class CustomColor extends FormWidgetBase
     {
         $this->vars['field'] = $this->formField;
         $this->vars['value'] = $this->getLoadValue();
-
-        if($this->clear)
-            $this->vars['clear'] = true;
-
-        if($this->clear == false)
-            $this->vars['defaultColor'] = $this->defaultColor;
     }
 
     /**
@@ -50,9 +74,7 @@ class CustomColor extends FormWidgetBase
      */
     protected function loadAssets()
     {
-        $this->addJs('js/iris.js', 'core');
-        $this->addJs('js/color.pick2.js', 'core');
-        $this->addJs('js/transparent.iris.js', 'core');
-        $this->addCss('css/style.css', 'core');
+        $this->addCss('css/style.css');
+        $this->addJs('js/script.js');
     }
 }

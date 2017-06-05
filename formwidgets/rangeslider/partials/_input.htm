@@ -1,0 +1,12 @@
+<div id="<?= $this->getId() ?>">
+	<div class="slider-container">
+		<input data-control="rangeslider" type="hidden" name="<?= $field->getName() ?>" 
+		value="<?= $value?$value:'0px' ?>"
+		data-min="<?= $this->min ?>"
+		data-max="<?= $this->max ?>"
+		data-orientation="<?= $this->orientation ?>"
+		data-range="<?= $this->range ?>"
+		data-mode="<?= $this->mode ?>"
+		<?= ($this->mode=='css')?'data-css-style-point="'.$this->cssStylePoint.'"':''?> >
+	</div>
+</div>

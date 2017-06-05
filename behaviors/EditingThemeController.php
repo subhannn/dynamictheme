@@ -69,6 +69,7 @@ class EditingThemeController extends ControllerBehavior
         $this->controller->addCss('/plugins/kincir/dynamictheme/assets/css/form.css');
         $this->controller->addJs('/plugins/kincir/dynamictheme/assets/build/bower_components/underscore/underscore-min.js');
         $this->controller->addJs('/plugins/kincir/dynamictheme/assets/build/bower_components/backbone/backbone-min.js');
+        $this->controller->addJs('/plugins/kincir/dynamictheme/assets/js/jquery-ui.js');
         $this->controller->addJs('/plugins/kincir/dynamictheme/assets/js/build.js');
         // $this->controller->addJs('/plugins/kincir/dynamictheme/assets/js/javascript/cssom/build/CSSOM.js');
     }
